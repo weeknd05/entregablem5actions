@@ -3,38 +3,30 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      
-master
+      - master
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-    
-name: Checkout
-    uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    
-name: Setup .NET
-    uses: actions/setup-dotnet@v1
-    with:
-      dotnet-version: '8.0.204'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.0.204'
 
-    
-name: Restore dependencies
-    run: dotnet restore
+      - name: Restore dependencies
+        run: dotnet restore
 
-    
-name: Build
-    run: dotnet build --no-restore
+      - name: Build
+        run: dotnet build --no-restore
 
-    
-name: Publish
-    run: dotnet publish --no-restore --configuration Release --output publish
+      - name: Publish
+        run: dotnet publish --no-restore --configuration Release --output publish
 
-    
-name: Deploy to GitHub Pages
-    uses: peaceiris/actions-gh-pages@v3
-    with:
-      github_token: ${{ secrets.DEPLOY_TOKEN }}
-      publish_dir: ./publish/wwwroot
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.DEPLOY_TOKEN }}
+          publish_dir: ./publish/wwwroot
